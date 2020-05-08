@@ -23,3 +23,4 @@ The **I**nter**P**lanetary **L**inked **D**ata
 - [IPLD schemas](https://github.com/ipld/specs/tree/master/schemas)
 - [SensorML 2.0](http://www.sensorml.com/sensorML-2.0/examples/index.html)
 - [OGC](https://www.fierceelectronics.com/components/mature-sensor-communication-standards-for-internet-things)
+- [multiformats](https://youtu.be/Bqs_LzBjQyk?t=996)
