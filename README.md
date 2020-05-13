@@ -151,3 +151,150 @@ Multiformats consist of the following:
  - `13 - sha2-512`
  - `16 - sha3-256`
  - `a0e402 - blake2b-256`
+
+ # Revocation
+
+ Use [one-way accumulators](https://en.wikipedia.org/wiki/Accumulator_(cryptography)) as a decentralized alternative to digital signatures.
+
+ Accumulator is the answer to a math problem.
+
+## Revocation of credentials
+
+Institution, I, wants to issue credential, e.g., driver's license, to Alice.
+
+```plantuml
+@startuml
+
+participant "Institution" as I
+participant "ledger" as L
+participant "Alice" as A
+participant "Bob" as B
+
+== credential is issued ==
+I -> I: C := sig(DID_X, verkey_Y, accu_Z, claim)
+I -> L: record C
+I -> A: issue C
+
+== use of credential ==
+B -> A: request proof of credential
+A -> B: proof of C
+B -> L: verify(DID_X, verkey_Y)
+note right
+Bob tests if
+credential is
+verified by 
+institution
+end note
+
+== revocation test of credential ==
+
+alt accumulator not changed
+   
+   B -> L: verify(accu_Z)
+   B -> A: C accepted
+
+else accumulator changed
+
+   I -> L: update(accu_Z)
+   B -> L: verify(accu_Z)
+   B -> A: C not accepted
+
+end
+
+@enduml
+```
+
+## Revocation of key
+
+Some sender, e.g., institution, Alice, IoT devices holds keys.
+Recipient receives msg, purpotedly from sender.
+As above, recipient checks if the verkey from sender with DID specified in msg.
+Revocation of key is done by sender changing verkey value on ledger.
+This can be used for key rotation.
+
+```plantuml
+@startuml
+
+participant "Alice" as A
+participant "Ledger" as L
+participant "Bob" as B
+
+== msg ==
+A -> A: M := sig(DID_X, verkey_Y1, msg)
+A -> L: record(DID_X, verkey_Y1)
+A -> B: send M
+
+== revocation test of key ==
+
+alt key is not revoked
+
+   B -> L: verify(DID_X, verkey_Y1)
+   B -> B: M is legitimate
+
+else key is revoked
+
+   alt verkey has changed 
+      A -> L: record(DID_X, verkey_Y2)
+      B -> L: verify(DID_X, verkey_V1)
+      B -> B: M is not legitimate
+   
+   else verkey is NULL
+      A -> L: record(DID_X, NULL)
+      B -> L: verify(DID_X, verkey_V1)
+      B -> B: DID_X is revoked
+   
+   end
+
+end
+
+@enduml
+```
+
+## Revocation of entity
+
+Alice wants to revoke IoT device.
+
+```plantuml
+@startuml
+
+participant "Alice" as A
+participant "Device" as D
+participant "Ledger" as L
+participant "Bob" as B
+participant "Carol" as C
+
+== Alice registers Device ==
+
+A -> A: D := sig(link(DID_A, device), verkey_D1)
+A -> L: record D
+D -> B: action
+
+== revocation test of device ==
+
+B -> L: verify(link(DID_A, device)
+
+alt Device is not revoked
+
+   B -> L: verify(verkey_D1)
+   B -> B: action is legitimate
+
+else Device is revoked
+   
+   alt key changed
+      A -> L: record(sig(link(DID_A, device), verkey_D2))
+      B -> L: verify(verkey_D1)
+      B -> B: action is not legitimate
+   
+   else Device disabled
+      A -> L: record(sig(link(DID_A, device), NULL))
+      B -> L: verify(verkey_D1)
+      B -> B: device no longer represents A
+   
+   end
+
+end
+
+@enduml
+```
+
+Note that moving out from a home, is equivalent with revoking device and setting device verkey to NULL
