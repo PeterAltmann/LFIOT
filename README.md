@@ -83,9 +83,20 @@ Such a linked data approach allows for a VERY flexible system, one that can work
 4. Use the ipfs links in business logic
 
 
+Content addressing through hashes can be used to connect data in distributed systems, IPLD is a way of representing hash-linked data.
+
+IPLD can be used to resolve content such as Git repositories and blockchains.
+
+It enables the creation of data structures that are universally addressable, facilitating resolving content across different protocols. IPLD achieves this using an interoperable data model where hash links are self-descriptive representations of various protocol formats. Content addressing in IPLD is done using Content Identifiers (CIDs). Using CIDs, it is possible to express a cryptographic hash in a self-describing, flexible, and interoperable way. CIDs rely on multiformats for flexible self-description. Multihash describes the hashes, multicodec the data content type, multibase the base encoding of the CID itself.
+
+Using IPLD, actors need not agree on DID methods, DLT protocols, or computation frameworks (or whatever else can that relies on hashlinked data). 
+
+
 ### IPFS
 
 IPFS is a hypermedia distribution protocol, i.e., a [transport protocol](https://en.wikipedia.org/wiki/Transport_layer). The IPFS stack allows applications to make use of the data that is defined on IPNS and IPLD.
+
+IPFS is a content-addressed data retrieval system.
 
 Example:
 
@@ -101,6 +112,12 @@ Content addressable and digitally signed permanent hash links.
 IPFS works well with linked merkle-trees
 
 [IPFS CLI commands](https://docs.ipfs.io/reference/api/cli/)
+
+### IPLD / IPFS as a general pattern for DID methods
+
+[Source: IPLD as a gGeneral pattern for DID documents and verifiable claims](https://github.com/WebOfTrustInfo/rwot7-toronto/blob/master/final-documents/ipld-did.pdf)
+
+
 
 ## The setup
 
