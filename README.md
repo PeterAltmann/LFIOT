@@ -1,3 +1,30 @@
+# IOTEX NKN youtube
+
+[link](https://www.youtube.com/watch?v=ZGz7bUPj7-g)
+
+* IOTEX works with trusted data an dtrusted devices
+
+## Situation today
+
+[Smart home market map](https://vinnter.se/wp-content/uploads/2019/08/1.-CB-Insights.png) with 60 companies listed by CBINSIGHTS.
+
+* Many devices are entering homes.
+* IoT devices are gateways between the physical world and the digital world.
+   1. physical actions based on digital rights
+   2. environmental readings to digital data processing pipelines
+* Devices are minicomputers with processor, memory, storage, wireless module, sensors, and PSU, all held together by proprietary firmware.
+
+### Data lifecycle of typical IoT device
+
+* Data acquisition: sensors measure physical properties (location, climate, motion, touch, proximity, environmental readings) and convert these into digital data.
+* On-device data processing: The raw data are processed by processors that perform basic data aggregation, validation, and analytics (optional and subject to available power).
+* Communcations: Wireless module transmits the data to a gateway or Cloud via various connectivity methods
+   1. Edge device -> Cloud through WiFi
+   2. Edge device -> Gateway through LPWAN -> Cloud through WiFi
+* Most IoT devices today come with complementary storage and processing that connects the device to a cloud.
+   - Internet -Ethernet-> Modem (connects your home network and its devices to the internet) + Router (creates a WAN across connected devices) + Smart Hub (syncs low-power devices to your network via BLE Zwave Zigbee)
+* 
+
 # Project report LFIoT
 
 Text

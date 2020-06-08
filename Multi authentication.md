@@ -16,27 +16,26 @@ Multi-signature based protocols are useful when asset transfers involve jointly 
 
 Alice cannot alone use $S()$ because she only has knowledge of $ k \oplus k_{1} $. Relatedly, Bob cannot use $S()$ because he only has knowledge of $k_{1}$. Only together can they can sign $m$.
 
-## Multi-entity authentication
+## Mutual authentication
 
-Transactions that simultaneously handover assets and liabilities can make use of multi-authentication that requires both the source and the recipient to sign a message. Here, we assume that the set of all transacting actors is not known at the start. One possible authentication protocol is as follows:
+Transactions that simultaneously handover assets and liabilities can make use of mutual authentication that requires both the source and the recipient to sign a message. Here, we assume that the set of all transacting actors is not known at the start. One possible authentication protocol is as follows:
 
 ```plantuml
 @startuml
 participant Initiator as I
 participant Responder as R
-participant Ethereum as E
+participant "Ethereum SC" as E
 
 group optional
-I --> R: Authentication request
+I --> R: 1. Authentication request
 end
-R -> R: n := nonce
-R -> I: n || IPFS hash
-I -> I: Confirm IPFS hash
-I -> R: S_i := S( k_i , n || IPFS hash )
-R -> R: V( K_i , n || IPFS hash )
-R -> I: S_r := S( k_r , S_i )
-I -> I: V( K_r , S_r )
-I -> E: S( k_i , tx( S_r , ... ) )
+R -> R: 2. n := nonce
+R -> I: 3. S_r := S( k_r, n || IPFS hash )
+R -> E: 4 S (k_r, H(S_r))
+I -> I: 5. V( K_R, S_R ) + Confirm IPFS hash
+I -> E: 6. S( k_i , tx( S_r , ... ) )
+E -> E: 7. Compare H (S_r) with info in 6
+E -> R: 8. Forward Tx
 
 @enduml
 ```
